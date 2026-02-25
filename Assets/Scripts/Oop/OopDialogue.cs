@@ -163,5 +163,34 @@ public class OOPDialogue : MonoBehaviour
             cameraRoom.gameObject.SetActive(true);
     }
 
+    public void PlaySuccessDialogue()
+    {
+        dialoguePanel.SetActive(true);
+
+        string[] successLines =
+        {
+        "Thank you for guiding the walker to the destination!",
+        "You did an amazing job!",
+        "The door is now open. You may proceed to the next room.",
+        "Well done!"
+    };
+
+        StartDialogueCoroutine(PlayCustomDialogue(successLines));
+    }
+
+    IEnumerator PlayCustomDialogue(string[] lines)
+    {
+        currentIndex = 0;
+
+        while (currentIndex < lines.Length)
+        {
+            yield return StartCoroutine(TypeLine(lines[currentIndex]));
+            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+            currentIndex++;
+        }
+
+        CloseDialogue();
+    }
+
 
 }

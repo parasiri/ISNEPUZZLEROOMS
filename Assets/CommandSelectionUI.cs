@@ -24,16 +24,26 @@ public class CommandSelectionUI : MonoBehaviour
 
     public void AddForward()
     {
-        CodeWalkerController.Instance.AddCommand("Forward");
+        CodeWalkerController.Instance.AddCommand(new MoveForwardCommand());
     }
 
-    public void AddLeft()
+    public void TurnRight45()
     {
-        CodeWalkerController.Instance.AddCommand("Left");
+        CodeWalkerController.Instance.AddCommand(new TurnCommand(45));
     }
 
-    public void AddRight()
+    public void TurnRight90()
     {
-        CodeWalkerController.Instance.AddCommand("Right");
+        CodeWalkerController.Instance.AddCommand(new TurnCommand(90));
+    }
+
+    public void TurnLeft45()
+    {
+        CodeWalkerController.Instance.AddCommand(new TurnCommand(-45));
+    }
+
+    public void TurnLeft90()
+    {
+        CodeWalkerController.Instance.AddCommand(new TurnCommand(-90));
     }
 }

@@ -12,6 +12,8 @@ public class OOPPuzzleManager : MonoBehaviour
     private bool puzzleStarted = false;
     private bool puzzleCompleted = false;
 
+    public OOPDialogue oopDialogue;
+
     void Awake()
     {
         if (Instance == null)
@@ -55,10 +57,8 @@ public class OOPPuzzleManager : MonoBehaviour
 
         Debug.Log("OOP Puzzle Completed!");
 
-        if (successPanel != null)
-            successPanel.SetActive(true);
-
-        LockWalker();
+        if (oopDialogue != null)
+            oopDialogue.PlaySuccessDialogue();
     }
 
     // ================= FAIL (TIME OUT) =================
