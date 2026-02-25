@@ -210,6 +210,50 @@ public class ComacrhDialogue : MonoBehaviour
         CloseDialogue();
     }
 
+    public void ShowPhase2Intro()
+    {
+        ForceStopDialogue();
+        dialoguePanel.SetActive(true);
+        activeCoroutine = StartCoroutine(PlayPhase2Intro());
+    }
+
+    IEnumerator PlayPhase2Intro()
+    {
+        yield return StartCoroutine(TypeLine("Excellent work."));
+        yield return new WaitForSeconds(0.4f);
+
+        yield return StartCoroutine(TypeLine("But there is still one final puzzle."));
+        yield return new WaitForSeconds(0.4f);
+
+        yield return StartCoroutine(TypeLine("Check the board behind me."));
+        yield return new WaitForSeconds(0.4f);
+
+        CloseDialogue();
+    }
+
+    public void ShowFinalSuccess()
+    {
+        ForceStopDialogue();
+        dialoguePanel.SetActive(true);
+        activeCoroutine = StartCoroutine(PlayFinalSuccess());
+    }
+
+    IEnumerator PlayFinalSuccess()
+    {
+        yield return StartCoroutine(TypeLine("Impressive."));
+        yield return new WaitForSeconds(0.4f);
+
+        yield return StartCoroutine(TypeLine("You have mastered logic gates."));
+        yield return new WaitForSeconds(0.4f);
+
+        yield return StartCoroutine(TypeLine("You may proceed to the next room."));
+        yield return new WaitForSeconds(0.4f);
+
+        CloseDialogue();
+    }
+
+
+
     // ================== FORCE STOP ==================
 
     public void ForceStopDialogue()

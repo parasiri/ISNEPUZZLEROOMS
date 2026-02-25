@@ -95,4 +95,38 @@ public static class PlayfairCipher
 
         return sb.ToString();
     }
+    public static char[,] GeneratePlayfairTable(string key)
+    {
+        key = key.ToUpper().Replace("J", "I");
+
+        string alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+        string finalKey = "";
+
+        foreach (char c in key)
+        {
+            if (!finalKey.Contains(c.ToString()))
+                finalKey += c;
+        }
+
+        foreach (char c in alphabet)
+        {
+            if (!finalKey.Contains(c.ToString()))
+                finalKey += c;
+        }
+
+        char[,] table = new char[5, 5];
+
+        int index = 0;
+        for (int row = 0; row < 5; row++)
+        {
+            for (int col = 0; col < 5; col++)
+            {
+                table[row, col] = finalKey[index];
+                index++;
+            }
+        }
+
+        return table;
+    }
+
 }

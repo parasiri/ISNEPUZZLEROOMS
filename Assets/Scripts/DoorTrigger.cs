@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class DoorTrigger : MonoBehaviour
 {
-    // รายชื่อห้องทั้งหมด
+    // รายชื่อห้องที่ต้องเล่น
     public static List<string> remainingRooms = new List<string>()
     {
         "Room_NetworkSecurity",
@@ -14,25 +14,25 @@ public class DoorTrigger : MonoBehaviour
         "Room_OOP"
     };
 
+    public string scoreboardScene = "Scoreboard";
+
     private void OnMouseDown()
     {
-        // ถ้าเล่นครบทุกห้องแล้ว
+        // ถ้าเล่นครบทุกห้องแล้ว → ไป Scoreboard
         if (remainingRooms.Count == 0)
         {
-            Debug.Log("All rooms completed!");
+            SceneManager.LoadScene(scoreboardScene);
             return;
         }
 
-        // สุ่ม index จากห้องที่เหลือ
+        // สุ่มห้องจากที่เหลือ
         int index = Random.Range(0, remainingRooms.Count);
-
-        // เลือกห้อง
         string selectedRoom = remainingRooms[index];
 
-        // ลบห้องนี้ออก (กันซ้ำ)
+        // ลบออกเพื่อกันซ้ำ
         remainingRooms.RemoveAt(index);
 
-        // โหลด Scene
+        // โหลดห้อง
         SceneManager.LoadScene(selectedRoom);
     }
 }

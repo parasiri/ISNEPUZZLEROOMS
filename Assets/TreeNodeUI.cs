@@ -1,31 +1,71 @@
-using UnityEngine;
-using TMPro;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
-public class TreeNodeUI : MonoBehaviour, IPointerClickHandler
+public class TreeNodeUI : MonoBehaviour,
+    IDropHandler, IPointerClickHandler
 {
+    private int? value = null;
+    private NumberButton placedButton = null;
+
     public TMP_Text valueText;
-    public TreeUIManager uiManager;
 
-    private int? currentValue = null;
-
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnDrop(PointerEventData eventData)
     {
-        uiManager.OnNodeClicked(this);
+        NumberButton button =
+            eventData.pointerDrag.GetComponent<NumberButton>();
+
+        if (button == null) return;
+
+        // ❌ ถ้ามีค่าอยู่แล้ว → ไม่ให้วาง
+        if (value.HasValue) return;
+
+        value = button.value;
+        valueText.text = value.ToString();
+
+        placedButton = button;
+
+        button.placedSuccessfully = true;
+        button.HideAfterPlaced();
     }
 
-    public bool HasValue() => currentValue != null;
-    public int? GetValue() => currentValue;
-
-    public void SetValue(int value)
+    // 🔁 คลิก Node เพื่อคืนเลข
+    public void OnPointerClick(PointerEventData eventData)
     {
-        currentValue = value;
-        valueText.text = value.ToString();
+        if (!value.HasValue) return;
+
+        if (placedButton != null)
+        {
+            placedButton.ReturnToOriginal();
+        }
+
+        value = null;
+        valueText.text = "";
+        placedButton = null;
+    }
+
+
+    public bool HasValue() => value.HasValue;
+    public int? GetValue() => value;
+
+    public void SetValue(int v)
+    {
+        value = v;
+        valueText.text = v.ToString();
     }
 
     public void Clear()
     {
-        currentValue = null;
+        if (placedButton != null)
+        {
+            placedButton.ReturnToOriginal();
+            placedButton = null;
+        }
+
+        value = null;
         valueText.text = "";
     }
+
+
+
 }

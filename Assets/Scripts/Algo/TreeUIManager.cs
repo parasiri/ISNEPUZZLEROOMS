@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using static UnityEngine.Rendering.DebugUI;
 
 public class TreeUIManager : MonoBehaviour
 {
@@ -20,8 +21,8 @@ public class TreeUIManager : MonoBehaviour
     public GameObject treePanel;
 
 
-    private int? selectedValue = null;
-    private Dictionary<TreeNodeUI, int> placedValues = new Dictionary<TreeNodeUI, int>();
+    //private int? selectedValue = null;
+    //private Dictionary<TreeNodeUI, int> placedValues = new Dictionary<TreeNodeUI, int>();
 
     void OnEnable()
     {
@@ -56,35 +57,35 @@ public class TreeUIManager : MonoBehaviour
     }
 
     // ====== Number ======
-    public void SelectNumber(int value)
-    {
-        selectedValue = value;
-        Debug.Log("Selected: " + value);
-    }
+    //public void SelectNumber(int value)
+    //{
+    //    selectedValue = value;
+    //    Debug.Log("Selected: " + value);
+    //}
 
     // ====== Node ======
-    public void PlaceNumberOnNode(TreeNodeUI node)
-    {
-        if (selectedValue == null)
-        {
-            Debug.Log("No number selected");
-            return;
-        }
+    //public void PlaceNumberOnNode(TreeNodeUI node)
+    //{
+    //    if (selectedValue == null)
+    //    {
+    //        Debug.Log("No number selected");
+    //        return;
+    //    }
 
-        // ถ้า node มีเลขอยู่ → คืนปุ่มก่อน
-        if (node.HasValue())
-        {
-            int oldValue = node.GetValue().Value;
-            EnableButton(oldValue);
-            placedValues.Remove(node);
-        }
+    //    // ถ้า node มีเลขอยู่ → คืนปุ่มก่อน
+    //    if (node.HasValue())
+    //    {
+    //        int oldValue = node.GetValue().Value;
+    //        EnableButton(oldValue);
+    //        placedValues.Remove(node);
+    //    }
 
-        node.SetValue(selectedValue.Value);
-        placedValues[node] = selectedValue.Value;
+    //    node.SetValue(selectedValue.Value);
+    //    placedValues[node] = selectedValue.Value;
 
-        DisableButton(selectedValue.Value);
-        selectedValue = null;
-    }
+    //    DisableButton(selectedValue.Value);
+    //    selectedValue = null;
+    //}
 
     void DisableButton(int value)
     {
@@ -135,36 +136,59 @@ public class TreeUIManager : MonoBehaviour
     }
 
 
-    public void OnNodeClicked(TreeNodeUI node)
+    //public void OnNodeClicked(TreeNodeUI node)
+    //{
+    //    // ถ้ามีเลขอยู่ → ถอนออก
+    //    if (node.HasValue())
+    //    {
+    //        int value = node.GetValue().Value;
+    //        node.Clear();
+    //        EnableButton(value);
+    //        selectedValue = null;
+    //        Debug.Log("Removed value: " + value);
+    //        return;
+    //    }
+
+    //    // ยังไม่ได้เลือกเลข
+    //    if (selectedValue == null)
+    //    {
+    //        Debug.Log("No number selected");
+    //        return;
+    //    }
+
+    //    // วางเลข
+    //    node.SetValue(selectedValue.Value);
+    //    DisableButton(selectedValue.Value);
+    //    selectedValue = null;
+    //}
+
+    public static TreeUIManager Instance;
+
+    void Awake()
     {
-        // ถ้ามีเลขอยู่ → ถอนออก
-        if (node.HasValue())
-        {
-            int value = node.GetValue().Value;
-            node.Clear();
-            EnableButton(value);
-            selectedValue = null;
-            Debug.Log("Removed value: " + value);
-            return;
-        }
-
-        // ยังไม่ได้เลือกเลข
-        if (selectedValue == null)
-        {
-            Debug.Log("No number selected");
-            return;
-        }
-
-        // วางเลข
-        node.SetValue(selectedValue.Value);
-        DisableButton(selectedValue.Value);
-        selectedValue = null;
+        Instance = this;
     }
+
+    public void PlaceValueByDrag(TreeNodeUI node, NumberButton button)
+    {
+        // ❌ ถ้ามีค่าอยู่แล้ว ไม่ให้วาง
+        if (node.HasValue()) return;
+
+        node.SetValue(button.value);
+
+        button.placedSuccessfully = true;
+        button.HideAfterPlaced();
+    }
+
+
 
     public void ClosePanel()
     {
         treePanel.SetActive(false);
     }
+
+  
+
 
 
 

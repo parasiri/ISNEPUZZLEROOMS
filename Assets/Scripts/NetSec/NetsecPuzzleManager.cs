@@ -11,7 +11,7 @@ public class NetsecPuzzleManager : MonoBehaviour
     public string currentKey;
     public string correctEncrypted;
 
-    public bool PuzzleStarted { get; private set; } = false; // ⭐ เพิ่ม
+    public bool PuzzleStarted { get; private set; } = false; 
 
     [Header("Candidates")]
     public string[] possiblePlaintexts =
