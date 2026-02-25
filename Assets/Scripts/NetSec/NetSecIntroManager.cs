@@ -21,6 +21,10 @@ public class PlayfairIntroManager : MonoBehaviour
     [Header("Continue Button")]
     public Button continueButton;
 
+    [Header("Navigation Buttons")]
+    public Button nextButton;
+    public Button backButton;
+
     [Header("Intro Lines")]
     public string[] introLines =
     {
@@ -46,6 +50,14 @@ public class PlayfairIntroManager : MonoBehaviour
     private bool isTyping = false;
     private bool skipTyping = false;
     private bool endingStarted = false;
+    private enum IntroState
+    {
+        IntroText,
+        Cards,
+        Ending
+    }
+
+    private IntroState currentState = IntroState.IntroText;
 
     void Start()
     {
@@ -59,41 +71,181 @@ public class PlayfairIntroManager : MonoBehaviour
 
         continueButton.gameObject.SetActive(false);
 
-        StartCoroutine(PlayIntro());
+        backButton.interactable = false;
+
+        nextButton.onClick.AddListener(OnNext);
+        backButton.onClick.AddListener(OnBack);
+
+        ShowIntroLine();
     }
 
-    void Update()
+    //void Update()
+    //{
+    //    if (!introPanel.activeSelf) return;
+
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        if (isTyping)
+    //        {
+    //            skipTyping = true;
+    //            return;
+    //        }
+
+    //        if (index >= introLines.Length && !endingStarted)
+    //        {
+    //            ShowNextCard();
+    //            return;
+    //        }
+
+    //        index++;
+    //    }
+    //}
+
+    //IEnumerator PlayIntro()
+    //{
+    //    while (index < introLines.Length)
+    //    {
+    //        yield return StartCoroutine(TypeLine(introLines[index]));
+    //        yield return WaitForClick();
+    //        index++;
+    //    }
+
+    //    ShowNextCard();
+    //}
+    void OnNext()
     {
-        if (!introPanel.activeSelf) return;
-
-        if (Input.GetMouseButtonDown(0))
+        if (currentState == IntroState.IntroText)
         {
-            if (isTyping)
-            {
-                skipTyping = true;
-                return;
-            }
-
-            if (index >= introLines.Length && !endingStarted)
-            {
-                ShowNextCard();
-                return;
-            }
-
             index++;
+
+            if (index < introLines.Length)
+            {
+                ShowIntroLine();
+            }
+            else
+            {
+                currentState = IntroState.Cards;
+                cardStep = 0;
+                ShowCard();
+            }
+
+            backButton.interactable = true;
+            return;
+        }
+
+        if (currentState == IntroState.Cards)
+        {
+            cardStep++;
+
+            if (cardStep < 5)
+            {
+                ShowCard();
+            }
+            else
+            {
+                HideAllCards();
+                currentState = IntroState.Ending;
+                index = 0;
+                ShowEndingLine();
+            }
+            return;
+        }
+
+        if (currentState == IntroState.Ending)
+        {
+            index++;
+
+            if (index < endingLines.Length)
+            {
+                ShowEndingLine();
+            }
+            else
+            {
+                nextButton.interactable = false;
+                continueButton.gameObject.SetActive(true);
+            }
         }
     }
-
-    IEnumerator PlayIntro()
+    void OnBack()
     {
-        while (index < introLines.Length)
+        if (currentState == IntroState.IntroText)
         {
-            yield return StartCoroutine(TypeLine(introLines[index]));
-            yield return WaitForClick();
-            index++;
+            if (index > 0)
+            {
+                index--;
+                ShowIntroLine();
+            }
+
+            if (index == 0)
+                backButton.interactable = false;
+
+            return;
         }
 
-        ShowNextCard();
+        if (currentState == IntroState.Cards)
+        {
+            if (cardStep > 0)
+            {
+                cardStep--;
+                ShowCard();
+            }
+            else
+            {
+                HideAllCards();
+                currentState = IntroState.IntroText;
+                index = introLines.Length - 1;
+                ShowIntroLine();
+            }
+            return;
+        }
+
+        if (currentState == IntroState.Ending)
+        {
+            if (index > 0)
+            {
+                index--;
+                ShowEndingLine();
+            }
+            else
+            {
+                currentState = IntroState.Cards;
+                cardStep = 4;
+                ShowCard();
+            }
+        }
+    }
+    void ShowIntroLine()
+    {
+        descriptionText.text = introLines[index];
+    }
+
+    void ShowEndingLine()
+    {
+        descriptionText.text = endingLines[index];
+    }
+
+    void ShowCard()
+    {
+        keySquareCard.SetActive(false);
+        ruleCard.SetActive(false);
+        ruletwoCard.SetActive(false);
+        encryptCard.SetActive(false);
+        decryptCard.SetActive(false);
+
+        if (cardStep == 0) keySquareCard.SetActive(true);
+        if (cardStep == 1) ruleCard.SetActive(true);
+        if (cardStep == 2) ruletwoCard.SetActive(true);
+        if (cardStep == 3) encryptCard.SetActive(true);
+        if (cardStep == 4) decryptCard.SetActive(true);
+    }
+
+    void HideAllCards()
+    {
+        keySquareCard.SetActive(false);
+        ruleCard.SetActive(false);
+        ruletwoCard.SetActive(false);
+        encryptCard.SetActive(false);
+        decryptCard.SetActive(false);
     }
 
     IEnumerator TypeLine(string line)

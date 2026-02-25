@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System.Collections;
 
 public class LogicGateIntroManager : MonoBehaviour
 {
@@ -23,13 +22,17 @@ public class LogicGateIntroManager : MonoBehaviour
     [Header("Continue Button")]
     public Button continueButton;
 
+    [Header("Navigation Buttons")]
+    public Button nextButton;
+    public Button backButton;
+
     [Header("Description Lines")]
     public string[] descriptionLines =
     {
         "Logic gates are the basic building blocks of digital circuits.",
         "Each gate takes inputs (0 or 1) and produces one output.",
         "Different gates behave differently depending on their logic.",
-        "Let's review the three basic gates before you start the puzzle."
+        "Let's review the basic gates before you start the puzzle."
     };
 
     [Header("Ending Lines")]
@@ -43,103 +46,172 @@ public class LogicGateIntroManager : MonoBehaviour
     public NPCIntroDialogue npcIntro;
 
     private int index = 0;
-    private bool isTyping = false;
-    private bool skipTyping = false;
+    private int cardStep = 0;
 
-    private int gateStep = 0;
-    private bool endingStarted = false;
+    private enum IntroState
+    {
+        Description,
+        Cards,
+        Ending
+    }
+
+    private IntroState currentState = IntroState.Description;
 
     void Start()
     {
         introPanel.SetActive(true);
 
-        andCard.SetActive(false);
-        orCard.SetActive(false);
-        notCard.SetActive(false);
-        nandCard.SetActive(false);
-        norCard.SetActive(false);
-        xorCard.SetActive(false);
-        xnorCard.SetActive(false);
-
         continueButton.gameObject.SetActive(false);
+        backButton.interactable = false;
 
-        StartCoroutine(PlayDescription());
+        nextButton.onClick.AddListener(OnNext);
+        backButton.onClick.AddListener(OnBack);
+
+        HideAllCards();
+        ShowDescription();
     }
 
-    void Update()
+    // =====================================================
+    // NEXT BUTTON
+    // =====================================================
+    void OnNext()
     {
-        if (!introPanel.activeSelf) return;
-
-        if (Input.GetMouseButtonDown(0))
+        if (currentState == IntroState.Description)
         {
-            if (isTyping)
-            {
-                skipTyping = true;
-                return;
-            }
-
-            if (index >= descriptionLines.Length && !endingStarted)
-            {
-                ShowNextGateCard();
-                return;
-            }
-
             index++;
+
+            if (index < descriptionLines.Length)
+            {
+                ShowDescription();
+            }
+            else
+            {
+                currentState = IntroState.Cards;
+                cardStep = 0;
+                ShowCard();
+            }
+
+            backButton.interactable = true;
+            return;
+        }
+
+        if (currentState == IntroState.Cards)
+        {
+            cardStep++;
+
+            if (cardStep < 7)
+            {
+                ShowCard();
+            }
+            else
+            {
+                HideAllCards();
+                currentState = IntroState.Ending;
+                index = 0;
+                ShowEnding();
+            }
+
+            return;
+        }
+
+        if (currentState == IntroState.Ending)
+        {
+            index++;
+
+            if (index < endingLines.Length)
+            {
+                ShowEnding();
+            }
+            else
+            {
+                nextButton.interactable = false;
+                continueButton.gameObject.SetActive(true);
+            }
         }
     }
 
-    IEnumerator PlayDescription()
+    // =====================================================
+    // BACK BUTTON
+    // =====================================================
+    void OnBack()
     {
-        while (index < descriptionLines.Length)
+        if (currentState == IntroState.Description)
         {
-            yield return StartCoroutine(TypeLine(descriptionLines[index]));
-
-            float t = 0f;
-            float waitTime = 0.5f;
-
-            while (t < waitTime)
+            if (index > 0)
             {
-                if (Input.GetMouseButtonDown(0)) break;
-                t += Time.deltaTime;
-                yield return null;
+                index--;
+                ShowDescription();
             }
 
-            index++;
+            if (index == 0)
+                backButton.interactable = false;
+
+            return;
         }
 
-        ShowNextGateCard();
+        if (currentState == IntroState.Cards)
+        {
+            if (cardStep > 0)
+            {
+                cardStep--;
+                ShowCard();
+            }
+            else
+            {
+                currentState = IntroState.Description;
+                index = descriptionLines.Length - 1;
+                HideAllCards();
+                ShowDescription();
+            }
+
+            return;
+        }
+
+        if (currentState == IntroState.Ending)
+        {
+            if (index > 0)
+            {
+                index--;
+                ShowEnding();
+            }
+            else
+            {
+                currentState = IntroState.Cards;
+                cardStep = 6;
+                ShowCard();
+            }
+        }
     }
 
-    IEnumerator TypeLine(string line)
+    // =====================================================
+    // SHOW FUNCTIONS
+    // =====================================================
+    void ShowDescription()
     {
+        descriptionText.text = descriptionLines[index];
+    }
+
+    void ShowEnding()
+    {
+        descriptionText.text = endingLines[index];
+    }
+
+    void ShowCard()
+    {
+        HideAllCards();
         descriptionText.text = "";
 
-        isTyping = true;
-        skipTyping = false;
-
-        foreach (char c in line)
-        {
-            if (skipTyping)
-            {
-                descriptionText.text = line;
-                break;
-            }
-
-            descriptionText.text += c;
-            yield return new WaitForSeconds(0.03f);
-        }
-
-        isTyping = false;
+        if (cardStep == 0) andCard.SetActive(true);
+        if (cardStep == 1) orCard.SetActive(true);
+        if (cardStep == 2) notCard.SetActive(true);
+        if (cardStep == 3) nandCard.SetActive(true);
+        if (cardStep == 4) norCard.SetActive(true);
+        if (cardStep == 5) xorCard.SetActive(true);
+        if (cardStep == 6) xnorCard.SetActive(true);
     }
 
-    // ========================================================
-    //   Show cards one by one
-    // ========================================================
-    void ShowNextGateCard()
+    void HideAllCards()
     {
-        descriptionText.text = "";
-        gateStep++;
-
         andCard.SetActive(false);
         orCard.SetActive(false);
         notCard.SetActive(false);
@@ -147,83 +219,16 @@ public class LogicGateIntroManager : MonoBehaviour
         norCard.SetActive(false);
         xorCard.SetActive(false);
         xnorCard.SetActive(false);
-
-        if (gateStep == 1)
-        {
-            andCard.SetActive(true);
-            return;
-        }
-
-        if (gateStep == 2)
-        {
-            orCard.SetActive(true);
-            return;
-        }
-
-        if (gateStep == 3)
-        {
-            notCard.SetActive(true);
-            return;
-        }
-
-        if (gateStep == 4)
-        {
-            nandCard.SetActive(true);
-            return;
-        }
-
-        if (gateStep == 5)
-        {
-            norCard.SetActive(true);
-            return;
-        }
-
-        if (gateStep == 6)
-        {
-            xorCard.SetActive(true);
-            return;
-        }
-
-        if (gateStep == 7)
-        {
-            xnorCard.SetActive(true);
-            return;
-        }
-
-        if (!endingStarted)
-        {
-            endingStarted = true;
-            StartCoroutine(PlayEndingDescription());
-        }
     }
 
-    // ========================================================
-    //   Ending Description
-    // ========================================================
-    IEnumerator PlayEndingDescription()
-    {
-        descriptionText.text = "";
-
-        foreach (string line in endingLines)
-        {
-            yield return StartCoroutine(TypeLine(line));
-            yield return new WaitForSeconds(0.4f);
-
-            while (!Input.GetMouseButtonDown(0))
-                yield return null;
-        }
-
-        continueButton.gameObject.SetActive(true);
-    }
-
+    // =====================================================
+    // CLOSE PANEL
+    // =====================================================
     public void ClosePanel()
     {
         introPanel.SetActive(false);
 
-        // 🔥 เรียกให้ NPC เล่น intro ต่อ
         if (npcIntro != null)
             npcIntro.StartIntro();
     }
-
-
 }
