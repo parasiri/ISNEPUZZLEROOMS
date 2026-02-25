@@ -13,6 +13,9 @@ public class NumberButton : MonoBehaviour,
     private CanvasGroup canvasGroup;
     private int originalSiblingIndex;
 
+    private Vector2 originalAnchoredPosition;
+    private RectTransform rectTransform;
+
 
     [HideInInspector]
     public bool placedSuccessfully = false;
@@ -22,10 +25,8 @@ public class NumberButton : MonoBehaviour,
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
-        originalParent = transform.parent;
-        originalSiblingIndex = transform.GetSiblingIndex();
+        rectTransform = GetComponent<RectTransform>();
     }
-
 
 
 
@@ -37,6 +38,10 @@ public class NumberButton : MonoBehaviour,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        originalParent = transform.parent;
+        originalSiblingIndex = transform.GetSiblingIndex();
+        originalAnchoredPosition = rectTransform.anchoredPosition;
+
         transform.SetParent(canvas.transform);
         canvasGroup.blocksRaycasts = false;
         placedSuccessfully = false;
@@ -70,8 +75,9 @@ public class NumberButton : MonoBehaviour,
         gameObject.SetActive(true);
 
         transform.SetParent(originalParent, false);
+        transform.SetSiblingIndex(originalSiblingIndex);
 
-        transform.SetSiblingIndex(originalSiblingIndex);  
+        rectTransform.anchoredPosition = originalAnchoredPosition;
 
         canvasGroup.blocksRaycasts = true;
         placedSuccessfully = false;
