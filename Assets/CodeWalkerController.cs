@@ -136,13 +136,13 @@ public class CodeWalkerController : MonoBehaviour
     //        yield return null;
     //    }
     //}
-    public IEnumerator MoveForward()
+    public IEnumerator MoveForward(float distance)
     {
         Vector3 start = rb.position;
-        Vector3 target = start + transform.forward * moveDistance;
+        Vector3 target = start + transform.forward * distance;
 
         float elapsed = 0f;
-        float duration = moveDistance / moveSpeed;
+        float duration = distance / moveSpeed;
 
         while (elapsed < duration)
         {
@@ -154,14 +154,14 @@ public class CodeWalkerController : MonoBehaviour
             Vector3 newPos = Vector3.Lerp(start, target, elapsed / duration);
             rb.MovePosition(newPos);
 
-            CheckGoal();   // เช็คระหว่างเดินเลย
+            CheckGoal();
 
             yield return new WaitForFixedUpdate();
         }
 
         rb.MovePosition(target);
 
-        CheckGoal(); // เช็คอีกครั้งตอนถึงเป้าก้าว
+        CheckGoal();
     }
 
 
@@ -230,6 +230,18 @@ public class CodeWalkerController : MonoBehaviour
         Debug.Log("Collided with: " + collision.gameObject.name);
 
         hasCollided = true;
+
+        // 🔥 หยุดการทำงานทั้งหมด
+        StopAllCoroutines();
+
+        // 🔥 รีเซ็ตตำแหน่ง
+        ResetPositionOnly();
+
+        // 🔥 เปิด command display กลับมา
+        if (UICommandDisplay.Instance != null)
+            UICommandDisplay.Instance.gameObject.SetActive(true);
+
+        isRunning = false;
     }
 
     IEnumerator HandleCollisionReset()

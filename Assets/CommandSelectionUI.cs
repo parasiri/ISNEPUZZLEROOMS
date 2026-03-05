@@ -22,9 +22,19 @@ public class CommandSelectionUI : MonoBehaviour
         panel.SetActive(false);
     }
 
-    public void AddForward()
+    public void AddForward05()
     {
-        CodeWalkerController.Instance.AddCommand(new MoveForwardCommand());
+        CodeWalkerController.Instance.AddCommand(new MoveForwardCommand(0.5f));
+    }
+
+    public void AddForward1()
+    {
+        CodeWalkerController.Instance.AddCommand(new MoveForwardCommand(1f));
+    }
+
+    public void AddForward2()
+    {
+        CodeWalkerController.Instance.AddCommand(new MoveForwardCommand(2f));
     }
 
     public void TurnRight45()

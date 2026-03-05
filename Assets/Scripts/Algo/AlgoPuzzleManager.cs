@@ -25,10 +25,7 @@ public class AlgoPuzzleManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        Instance = this;
     }
 
     // ================== Collect Number ==================

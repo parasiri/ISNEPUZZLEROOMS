@@ -31,6 +31,9 @@ public class LogicGatePuzzleManager : MonoBehaviour
     [Header("Dialogue System")]
     public ComacrhDialogue dialogue;
 
+    public CountdownTimer countdownTimer;
+    private bool isSaved = false;
+
     private LogicGateData frame1Gate;
     private LogicGateData frame2Gate;
     private LogicGateData selectedGate;
@@ -227,6 +230,24 @@ public class LogicGatePuzzleManager : MonoBehaviour
             phase2Completed = true;
 
             clickedButton.image.color = Color.green;
+
+            // ===== STOP TIME =====
+            if (!isSaved)
+            {
+                isSaved = true;
+
+                countdownTimer.StopCountdown();
+
+                float usedTime = countdownTimer.GetTimeUsed();
+
+                if (PlayerDataManager.Instance != null)
+                {
+                    PlayerDataManager.Instance.SaveRoomTime(
+                        UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
+                        usedTime
+                    );
+                }
+            }
 
             StartCoroutine(ClosePhase2AfterDelay());
         }

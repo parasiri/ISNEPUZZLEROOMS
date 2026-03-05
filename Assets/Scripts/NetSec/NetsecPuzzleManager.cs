@@ -3,6 +3,7 @@
 public class NetsecPuzzleManager : MonoBehaviour
 {
     public static NetsecPuzzleManager Instance;
+
     public bool PuzzleSolved { get; private set; } = false;
 
 
@@ -70,6 +71,12 @@ public class NetsecPuzzleManager : MonoBehaviour
     {
         PuzzleSolved = true;
         Debug.Log("PUZZLE SOLVED → DOOR UNLOCKED");
+
+        if (CountdownTimer.Instance != null && PlayerDataManager.Instance != null)
+        {
+            float timeUsed = CountdownTimer.Instance.GetTimeUsed();
+            PlayerDataManager.Instance.SaveRoomTime("NetSec", timeUsed);
+        }
     }
 
 }

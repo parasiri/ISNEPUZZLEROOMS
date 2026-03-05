@@ -3,13 +3,20 @@ using System.Collections;
 
 public class MoveForwardCommand : IWalkerCommand
 {
-    public IEnumerator Execute(CodeWalkerController walker)
+    private float distance;
+
+    public MoveForwardCommand(float distance)
     {
-        yield return walker.MoveForward();
+        this.distance = distance;
+    }
+
+    public IEnumerator Execute(CodeWalkerController controller)
+    {
+        yield return controller.MoveForward(distance);
     }
 
     public string GetCode()
     {
-        return "moveForward();";
+        return "Forward(" + distance + ")";
     }
 }

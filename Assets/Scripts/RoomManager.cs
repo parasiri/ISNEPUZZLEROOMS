@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class RoomManager : MonoBehaviour
 {
+    public static RoomManager Instance;
     // รายชื่อห้องทั้งหมด (ต้องตรงตามชื่อ Scene)
     public List<string> allRooms = new List<string>()
     {
@@ -18,7 +19,15 @@ public class RoomManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject); // อยู่ค้างทุก Scene
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
@@ -31,18 +40,32 @@ public class RoomManager : MonoBehaviour
         remainingRooms = new List<string>(allRooms);
     }
 
+    //public void GoToNextRoom()
+    //{
+    //    if (remainingRooms == null || remainingRooms.Count == 0)
+    //    {
+    //        ResetRooms();
+    //    }
+
+    //    int index = Random.Range(0, remainingRooms.Count);
+    //    string nextRoom = remainingRooms[index];
+
+    //    remainingRooms.RemoveAt(index);
+
+    //    SceneManager.LoadScene(nextRoom);
+    //}
+
     public void GoToNextRoom()
     {
         if (remainingRooms == null || remainingRooms.Count == 0)
         {
-            ResetRooms();
+            SceneManager.LoadScene("ScoreboardScene");
+            return;
         }
 
         int index = Random.Range(0, remainingRooms.Count);
         string nextRoom = remainingRooms[index];
-
         remainingRooms.RemoveAt(index);
-
         SceneManager.LoadScene(nextRoom);
     }
 }

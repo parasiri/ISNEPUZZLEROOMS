@@ -5,6 +5,8 @@ using System.Collections;
 
 public class CountdownTimer : MonoBehaviour
 {
+    public static CountdownTimer Instance;
+
     [Header("Timer")]
     public TextMeshProUGUI timerText;
 
@@ -17,6 +19,11 @@ public class CountdownTimer : MonoBehaviour
     private bool isCounting = false;
 
     private Coroutine timerCoroutine;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -33,6 +40,14 @@ public class CountdownTimer : MonoBehaviour
 
         if (closeHintButton != null)
             closeHintButton.onClick.AddListener(CloseHint);
+    }
+
+
+    
+    //เก็บเวลาในแต่ละห้อง
+    public float GetTimeUsed()
+    {
+        return 300f - timeLeft;
     }
 
     // 🔹 ใช้กับทุกห้องได้ 

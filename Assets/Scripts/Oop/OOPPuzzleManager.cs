@@ -14,6 +14,9 @@ public class OOPPuzzleManager : MonoBehaviour
 
     public OOPDialogue oopDialogue;
 
+    public CountdownTimer countdownTimer;
+    private bool isSaved = false;
+
     void Awake()
     {
         if (Instance == null)
@@ -56,6 +59,24 @@ public class OOPPuzzleManager : MonoBehaviour
         puzzleCompleted = true;
 
         Debug.Log("OOP Puzzle Completed!");
+
+        // ===== STOP TIMER =====
+        if (!isSaved)
+        {
+            isSaved = true;
+
+            countdownTimer.StopCountdown();
+
+            float usedTime = countdownTimer.GetTimeUsed();
+
+            if (PlayerDataManager.Instance != null)
+            {
+                PlayerDataManager.Instance.SaveRoomTime(
+                    UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
+                    usedTime
+                );
+            }
+        }
 
         if (oopDialogue != null)
             oopDialogue.PlaySuccessDialogue();

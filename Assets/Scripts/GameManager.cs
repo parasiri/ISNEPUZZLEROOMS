@@ -44,6 +44,22 @@ public class GameManager : MonoBehaviour
     // ฟังก์ชันปุ่ม Confirm
     public void ConfirmAndStartGame()
     {
+        PlayerDataManager.Instance.playerName = NameInput.text;
+        PlayerDataManager.Instance.playerYear =
+            YearDropdown.options[YearDropdown.value].text;
+        PlayerDataManager.Instance.playerCareer =
+            CareerDropdown.options[CareerDropdown.value].text;
+
         SceneManager.LoadScene("IntroScene");
     }
+    //public void ConfirmAndStartGame()
+    //{
+    //    PlayerDataManager.Instance.playerName = NameInput.text;
+    //    PlayerDataManager.Instance.playerYear =
+    //        YearDropdown.options[YearDropdown.value].text;
+    //    PlayerDataManager.Instance.playerCareer =
+    //        CareerDropdown.options[CareerDropdown.value].text;
+
+    //    SceneManager.LoadScene("IntroScene");
+    //}
 }

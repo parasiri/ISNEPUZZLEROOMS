@@ -20,12 +20,18 @@ public class TreeUIManager : MonoBehaviour
     [Header("Panel")]
     public GameObject treePanel;
 
+    public CountdownTimer countdownTimer;
+    private bool isSaved = false;
+
 
     //private int? selectedValue = null;
     //private Dictionary<TreeNodeUI, int> placedValues = new Dictionary<TreeNodeUI, int>();
 
     void OnEnable()
     {
+        if (puzzleManager == null)
+            puzzleManager = AlgoPuzzleManager.Instance;
+
         SetupNumberButtons();
         UpdateTreeTypeText();
     }
@@ -104,6 +110,8 @@ public class TreeUIManager : MonoBehaviour
     // ====== Submit ======
     public void Submit()
     {
+        Debug.Log("SUBMIT CLICKED 🔥");
+
         List<int> order = new List<int>();
 
         foreach (var node in treeNodes)
@@ -118,22 +126,42 @@ public class TreeUIManager : MonoBehaviour
         {
             Debug.Log("✅ Correct!");
 
-            // ปิด panel ต้นไม้ก่อน
+            if (isSaved) return;
+            isSaved = true;
+
+            // 🔥 1. หยุดเวลา
+            countdownTimer.StopCountdown();
+
+            // 🔥 2. ดึงเวลาที่ใช้ไป
+            float usedTime = countdownTimer.GetTimeUsed();
+
+            // 🔥 3. บันทึกเวลาห้องนี้
+            if (PlayerDataManager.Instance != null)
+            {
+                PlayerDataManager.Instance.SaveRoomTime(
+                    UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
+                    usedTime
+                );
+            }
+
+            // ปิด panel
             ClosePanel();
 
-            // เล่น dialogue หลังตอบถูก
+            // Dialogue หลังตอบถูก
             if (puzzleManager.algoDialogue != null)
                 puzzleManager.algoDialogue.ContinueAfterCorrectAnswer();
+
+            
         }
         else
         {
             Debug.Log("❌ Wrong!");
 
-            // เล่น dialogue ตอบผิด
             if (puzzleManager.algoDialogue != null)
                 puzzleManager.algoDialogue.ShowWrongAnswer();
         }
     }
+
 
 
     //public void OnNodeClicked(TreeNodeUI node)
@@ -187,9 +215,5 @@ public class TreeUIManager : MonoBehaviour
         treePanel.SetActive(false);
     }
 
-  
-
-
-
-
+ 
 }

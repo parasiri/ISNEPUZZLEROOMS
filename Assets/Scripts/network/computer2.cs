@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 public class computer2 : MonoBehaviour
@@ -108,11 +108,35 @@ public class computer2 : MonoBehaviour
         }
         else
         {
+            //if (inputField.text == "ping " + networkDialogue.ipaddress)
+            //{
+            //    Debug.Log("Correct Answer");
+            //    resultText.gameObject.SetActive(true);
+            //    resultText.text = "Correct! You have successfully pinged the server.";
+            //    networkDialogue.Outtro();
+            //    close();
+            //}
             if (inputField.text == "ping " + networkDialogue.ipaddress)
             {
                 Debug.Log("Correct Answer");
+
                 resultText.gameObject.SetActive(true);
                 resultText.text = "Correct! You have successfully pinged the server.";
+
+                // 🔥 หยุดเวลา
+                if (CountdownTimer.Instance != null)
+                    CountdownTimer.Instance.StopCountdown();
+
+                // 🔥 เก็บเวลา
+                if (PlayerDataManager.Instance != null && CountdownTimer.Instance != null)
+                {
+                    float usedTime = CountdownTimer.Instance.GetTimeUsed();
+                    PlayerDataManager.Instance.SaveRoomTime(
+                        UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
+                        usedTime
+                    );
+                }
+
                 networkDialogue.Outtro();
                 close();
             }
