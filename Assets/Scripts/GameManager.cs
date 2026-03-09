@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene("IntroScene");
     }
+
     //public void ConfirmAndStartGame()
     //{
     //    PlayerDataManager.Instance.playerName = NameInput.text;

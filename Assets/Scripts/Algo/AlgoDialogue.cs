@@ -2,7 +2,7 @@
 using TMPro;
 using System.Collections;
 
-public class AlgoDialogue : MonoBehaviour
+public class AlgoDialogue : MonoBehaviour, IRoomDialogue
 {
     [Header("UI Elements")]
     public GameObject dialoguePanel;
@@ -36,6 +36,16 @@ public class AlgoDialogue : MonoBehaviour
         "You can DOUBLE CLICK on the shelf to see it closer",
         "Good luck!"
     };
+    public void ShowDoorLockedMessage()
+    {
+        dialoguePanel.SetActive(true);
+        dialogueText.text = "You can't leave this room yet.\nSolve the puzzle first!";
+    }
+
+    public void ShowMessage(string msg)
+    {
+        Debug.Log(msg);
+    }
 
     void Start()
     {
@@ -141,6 +151,14 @@ public class AlgoDialogue : MonoBehaviour
         activeCoroutine = null;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
+    }
+    public void CloseButton()
+    {
+        ForceStop();
+
+        StartTimerIfNeeded(); // ⭐ เริ่มเวลาเมื่อกดปิด
+
+        CloseDialogue();
     }
 
     // =====================================================

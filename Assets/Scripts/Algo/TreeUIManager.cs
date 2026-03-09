@@ -110,7 +110,7 @@ public class TreeUIManager : MonoBehaviour
     // ====== Submit ======
     public void Submit()
     {
-        Debug.Log("SUBMIT CLICKED 🔥");
+        Debug.Log("SUBMIT CLICKED");
 
         List<int> order = new List<int>();
 
@@ -124,7 +124,12 @@ public class TreeUIManager : MonoBehaviour
 
         if (correct)
         {
-            Debug.Log("✅ Correct!");
+            Debug.Log("Correct!");
+
+            if (PuzzleStateManager.Instance != null)
+            {
+                PuzzleStateManager.Instance.SetPuzzleSolved();
+            }
 
             if (isSaved) return;
             isSaved = true;
@@ -155,7 +160,7 @@ public class TreeUIManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("❌ Wrong!");
+            Debug.Log("Wrong!");
 
             if (puzzleManager.algoDialogue != null)
                 puzzleManager.algoDialogue.ShowWrongAnswer();

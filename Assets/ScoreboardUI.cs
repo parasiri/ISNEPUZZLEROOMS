@@ -77,13 +77,15 @@ public class ScoreboardUI : MonoBehaviour
     public void PlayAgain()
     {
         PlayerDataManager.Instance.ResetData();
-        SceneManager.LoadScene("GameScene");
+        DoorTrigger.ResetRooms();
+        SceneManager.LoadScene("MainMenu");
     }
 
     // ⭐ ปุ่ม Main Menu
     public void BackToMainMenu()
     {
         PlayerDataManager.Instance.ResetData();
+        DoorTrigger.ResetRooms();
         SceneManager.LoadScene("MainMenu");
     }
 }

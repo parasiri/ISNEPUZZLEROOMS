@@ -160,6 +160,8 @@ public class IntroDialogue : MonoBehaviour
 
     public void ContinueAfterCorrectAnswer()
     {
+        PuzzleStateManager.Instance.SetPuzzleSolved();
+
         dialoguePanel.SetActive(true);
 
         // หยุด dialogue เดิมก่อน (สำคัญมาก)

@@ -2,7 +2,7 @@
 using TMPro;
 using System.Collections;
 
-public class OOPDialogue : MonoBehaviour
+public class OOPDialogue : MonoBehaviour, IRoomDialogue
 {
     [Header("UI Elements")]
     public GameObject dialoguePanel;
@@ -34,6 +34,16 @@ public class OOPDialogue : MonoBehaviour
         "Reach the correct position in front of the table to complete the puzzle.",
         "Alright... let’s start coding!"
     };
+    public void ShowDoorLockedMessage()
+    {
+        dialoguePanel.SetActive(true);
+        dialogueText.text = "You can't leave this room yet.\nSolve the puzzle first!";
+    }
+
+    public void ShowMessage(string msg)
+    {
+        Debug.Log(msg);
+    }
 
     private int currentIndex = 0;
     private bool hasPlayed = false;

@@ -8818,6 +8818,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f205af7c9166b943a364c5cc5e9582a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1111617547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1111617549}
+  - component: {fileID: 1111617548}
+  m_Layer: 0
+  m_Name: IRoomDialogue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1111617548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111617547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8716386ed7d99a04ab2f47bf25b3f2be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1111617549
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111617547}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1125985849
 GameObject:
   m_ObjectHideFlags: 0
@@ -11282,6 +11326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreboardScene: Scoreboard
+  roomDialogue: {fileID: 861836972}
 --- !u!114 &1408409167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17068,8 +17113,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 861836972}
         m_TargetAssemblyTypeName: AlgoDialogue, Assembly-CSharp
-        m_MethodName: ClosePanel
-        m_Mode: 6
+        m_MethodName: CloseButton
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -18293,6 +18338,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2056147046}
   m_Mesh: {fileID: 4300218, guid: 3d58d5cb75277704fbee090d5dc98394, type: 3}
+--- !u!1 &2059801169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2059801171}
+  - component: {fileID: 2059801170}
+  m_Layer: 0
+  m_Name: PuzzleStateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2059801170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059801169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 553d1a5a58a7a104fb3ba797f5ffd959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2059801171
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059801169}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2061644754
 GameObject:
   m_ObjectHideFlags: 0
@@ -19566,3 +19655,5 @@ SceneRoots:
   - {fileID: 1623377431}
   - {fileID: 2027948010}
   - {fileID: 716702131}
+  - {fileID: 2059801171}
+  - {fileID: 1111617549}

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Threading;
 
 
-public class NetworkDialogue : MonoBehaviour
+public class NetworkDialogue : MonoBehaviour, IRoomDialogue
 {
     [Header("UI Elements")]
     public GameObject dialoguePanel;
@@ -50,6 +50,16 @@ public class NetworkDialogue : MonoBehaviour
             closeButton.SetActive(true);
 
         Debug.Log(ipaddress);
+    }
+    public void ShowDoorLockedMessage()
+    {
+        dialoguePanel.SetActive(true);
+        dialogueText.text = "You can't leave this room yet.\nSolve the puzzle first!";
+    }
+
+    public void ShowMessage(string msg)
+    {
+        Debug.Log(msg);
     }
 
     // Update is called once per frame

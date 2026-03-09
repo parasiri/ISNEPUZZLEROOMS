@@ -2,7 +2,7 @@
 using TMPro;
 using System.Collections;
 
-public class ComacrhDialogue : MonoBehaviour
+public class ComacrhDialogue : MonoBehaviour, IRoomDialogue
 {
     [Header("UI Elements")]
     public GameObject dialoguePanel;
@@ -33,6 +33,16 @@ public class ComacrhDialogue : MonoBehaviour
         "Focus carefully...",
         "Let’s begin the logic challenge!"
     };
+    public void ShowDoorLockedMessage()
+    {
+        dialoguePanel.SetActive(true);
+        dialogueText.text = "You can't leave this room yet.\nSolve the puzzle first!";
+    }
+
+    public void ShowMessage(string msg)
+    {
+        Debug.Log(msg);
+    }
 
     private int currentIndex = 0;
     private bool hasPlayed = false;

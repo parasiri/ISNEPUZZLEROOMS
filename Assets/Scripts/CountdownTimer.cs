@@ -15,7 +15,7 @@ public class CountdownTimer : MonoBehaviour
     public GameObject hintTextPanel;
     public Button closeHintButton;
 
-    private float timeLeft = 60f;
+    private float elapsedTime = 0f;
     private bool isCounting = false;
 
     private Coroutine timerCoroutine;
@@ -43,11 +43,11 @@ public class CountdownTimer : MonoBehaviour
     }
 
 
-    
+
     //เก็บเวลาในแต่ละห้อง
     public float GetTimeUsed()
     {
-        return 300f - timeLeft;
+        return elapsedTime;
     }
 
     // 🔹 ใช้กับทุกห้องได้ 
@@ -58,43 +58,40 @@ public class CountdownTimer : MonoBehaviour
         if (hintButton != null)
             hintButton.gameObject.SetActive(true);
 
-        timeLeft = 300f;
+        elapsedTime = 0f;
         UpdateTimerDisplay();
     }
 
     public void StartCountdownTutorial()
-{
-    Debug.Log("StartCountdownTutorial called, isCounting = " + isCounting);
+    {
+        elapsedTime = 0f;      // ⭐ รีเซ็ตเวลา
+        StopCountdown();       // ⭐ หยุด coroutine เก่าถ้ามี
 
-    if (!isCounting)
-        timerCoroutine = StartCoroutine(TutorialCountdown());
-}
-
+        if (!isCounting)
+            timerCoroutine = StartCoroutine(TutorialCountdown());
+    }
 
     IEnumerator TutorialCountdown()
     {
         isCounting = true;
 
-        while (timeLeft > 0 && isCounting)
+        while (isCounting)
         {
-            timeLeft -= Time.deltaTime;
+            elapsedTime += Time.deltaTime;
             UpdateTimerDisplay();
             yield return null;
         }
 
-        if (timeLeft <= 0)
-        {
-            timerText.text = "Time’s up!";
-        }
-
-        isCounting = false;
         timerCoroutine = null;
     }
 
 
     void UpdateTimerDisplay()
     {
-        timerText.text = timeLeft.ToString("0.0");
+        int minutes = Mathf.FloorToInt(elapsedTime / 60);
+        int seconds = Mathf.FloorToInt(elapsedTime % 60);
+
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
     public void StopCountdown()
@@ -122,13 +119,6 @@ public class CountdownTimer : MonoBehaviour
             hintTextPanel.SetActive(false);
     }
 
-    public void ReduceTime(float seconds)
-    {
-        timeLeft -= seconds;
-        if (timeLeft < 0)
-            timeLeft = 0;
-
-        UpdateTimerDisplay();
-    }
+    
 
 }

@@ -72,6 +72,12 @@ public class NetsecPuzzleManager : MonoBehaviour
         PuzzleSolved = true;
         Debug.Log("PUZZLE SOLVED → DOOR UNLOCKED");
 
+        //unlockdoor
+        if (PuzzleStateManager.Instance != null)
+        {
+            PuzzleStateManager.Instance.SetPuzzleSolved();
+        }
+
         if (CountdownTimer.Instance != null && PlayerDataManager.Instance != null)
         {
             float timeUsed = CountdownTimer.Instance.GetTimeUsed();

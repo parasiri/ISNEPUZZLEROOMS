@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OOPPuzzleManager : MonoBehaviour
 {
@@ -57,6 +57,12 @@ public class OOPPuzzleManager : MonoBehaviour
         if (puzzleCompleted) return;
 
         puzzleCompleted = true;
+
+        // ปลดล็อคประตู
+        if (PuzzleStateManager.Instance != null)
+        {
+            PuzzleStateManager.Instance.SetPuzzleSolved();
+        }
 
         Debug.Log("OOP Puzzle Completed!");
 

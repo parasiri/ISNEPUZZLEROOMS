@@ -21,7 +21,7 @@ public class AlgoPuzzleManager : MonoBehaviour
     [Header("Dialogue")]
     public AlgoDialogue algoDialogue;
 
-    private bool treeInstructionShown = false; // ⭐ เพิ่มตรงนี้
+    private bool treeInstructionShown = false; 
 
     void Awake()
     {

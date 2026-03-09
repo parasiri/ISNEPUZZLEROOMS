@@ -16,8 +16,27 @@ public class DoorTrigger : MonoBehaviour
 
     public string scoreboardScene = "Scoreboard";
 
+    public MonoBehaviour roomDialogue;
+
     private void OnMouseDown()
     {
+        // แก้ได้ค่อยเปิดประตู
+        if (PuzzleStateManager.Instance != null &&
+        !PuzzleStateManager.Instance.IsPuzzleSolved())
+        {
+            Debug.Log("Solve the puzzle first!");
+
+            IRoomDialogue dialogue = roomDialogue as IRoomDialogue;
+
+            if (dialogue != null)
+            {
+                dialogue.ShowDoorLockedMessage();
+            }
+
+            return;
+        }
+        PuzzleStateManager.Instance.ResetPuzzle();
+
         // ถ้าเล่นครบทุกห้องแล้ว → ไป Scoreboard
         if (remainingRooms.Count == 0)
         {
@@ -34,5 +53,16 @@ public class DoorTrigger : MonoBehaviour
 
         // โหลดห้อง
         SceneManager.LoadScene(selectedRoom);
+    }
+    public static void ResetRooms()
+    {
+        remainingRooms = new List<string>()
+    {
+        "Room_NetworkSecurity",
+        "Room_ComputerArchitecture",
+        "Room_Network",
+        "Room_Algorithm",
+        "Room_OOP"
+    };
     }
 }

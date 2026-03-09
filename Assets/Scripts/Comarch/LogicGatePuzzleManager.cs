@@ -249,6 +249,12 @@ public class LogicGatePuzzleManager : MonoBehaviour
                 }
             }
 
+            //unlock door
+            if (PuzzleStateManager.Instance != null)
+            {
+                PuzzleStateManager.Instance.SetPuzzleSolved();
+            }
+
             StartCoroutine(ClosePhase2AfterDelay());
         }
         else

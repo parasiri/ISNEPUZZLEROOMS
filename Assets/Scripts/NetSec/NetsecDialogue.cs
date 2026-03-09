@@ -2,7 +2,7 @@
 using TMPro;
 using System.Collections;
 
-public class NetsecDialogue : MonoBehaviour
+public class NetsecDialogue : MonoBehaviour, IRoomDialogue
 {
     [Header("UI Elements")]
     public GameObject dialoguePanel;
@@ -65,6 +65,17 @@ public class NetsecDialogue : MonoBehaviour
             if (isTyping)
                 skipTyping = true;
         }
+    }
+
+    public void ShowDoorLockedMessage()
+    {
+        dialoguePanel.SetActive(true);
+        dialogueText.text = "You can't leave this room yet.\nSolve the puzzle first!";
+    }
+
+    public void ShowMessage(string msg)
+    {
+        Debug.Log(msg);
     }
 
     void StartDialogueCoroutine(IEnumerator routine)

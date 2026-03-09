@@ -19,6 +19,12 @@ public class PlayerScore
     }
 }
 
+[System.Serializable]
+public class ScoreList
+{
+    public List<PlayerScore> scores = new List<PlayerScore>();
+}
+
 public class ScoreDataManager : MonoBehaviour
 {
     public static ScoreDataManager Instance;
@@ -31,6 +37,7 @@ public class ScoreDataManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            LoadScores();
         }
         else
         {
@@ -42,15 +49,39 @@ public class ScoreDataManager : MonoBehaviour
     {
         allScores.Add(newScore);
 
-        // เรียงจากเวลาน้อยไปมาก และเก็บแค่ 10 อันดับ
         allScores = allScores
             .OrderBy(x => x.totalTime)
             .Take(10)
             .ToList();
+
+        SaveScores();
     }
 
     public List<PlayerScore> GetTopScores(int topCount)
     {
         return allScores.Take(topCount).ToList();
+    }
+
+    void SaveScores()
+    {
+        ScoreList list = new ScoreList();
+        list.scores = allScores;
+
+        string json = JsonUtility.ToJson(list);
+
+        PlayerPrefs.SetString("Leaderboard", json);
+        PlayerPrefs.Save();
+    }
+
+    void LoadScores()
+    {
+        if (PlayerPrefs.HasKey("Leaderboard"))
+        {
+            string json = PlayerPrefs.GetString("Leaderboard");
+
+            ScoreList list = JsonUtility.FromJson<ScoreList>(json);
+
+            allScores = list.scores;
+        }
     }
 }

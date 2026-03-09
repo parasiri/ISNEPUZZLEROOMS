@@ -123,6 +123,11 @@ public class computer2 : MonoBehaviour
                 resultText.gameObject.SetActive(true);
                 resultText.text = "Correct! You have successfully pinged the server.";
 
+                //unlockdoor 
+                if (PuzzleStateManager.Instance != null)
+                {
+                    PuzzleStateManager.Instance.SetPuzzleSolved();
+                }
                 // 🔥 หยุดเวลา
                 if (CountdownTimer.Instance != null)
                     CountdownTimer.Instance.StopCountdown();
