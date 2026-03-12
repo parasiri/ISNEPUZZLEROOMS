@@ -3888,6 +3888,8 @@ MonoBehaviour:
   playerName: 
   playerYear: 
   playerCareer: 
+  gameMode: 0
+  selectedRoom: 0
 --- !u!4 &651539106
 Transform:
   m_ObjectHideFlags: 0
@@ -5604,7 +5606,7 @@ GameObject:
   - component: {fileID: 898008613}
   - component: {fileID: 898008612}
   m_Layer: 5
-  m_Name: BinarytreeIntroPanel
+  m_Name: oopIntroPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
