@@ -13,6 +13,16 @@ public class PlayerDataManager : MonoBehaviour
     [Header("Room Times")]
     public Dictionary<string, float> roomTimes = new Dictionary<string, float>();
 
+    //selectmode
+    public enum GameMode
+    {
+        Adventure,
+        SingleRoom
+    }
+
+    public GameMode gameMode;
+    public int selectedRoom;
+
     void Awake()
     {
         if (Instance == null)

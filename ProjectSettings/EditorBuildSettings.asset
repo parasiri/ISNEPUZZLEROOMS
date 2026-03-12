@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scoreboard.unity
     guid: 47b61379ef1c0f24398d3f507d34bd20
+  - enabled: 1
+    path: Assets/Scenes/ModeSelectScene.unity
+    guid: 026083df2a6d4a24a8ae2842db1e96c1
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

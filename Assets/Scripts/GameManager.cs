@@ -50,7 +50,8 @@ public class GameManager : MonoBehaviour
         PlayerDataManager.Instance.playerCareer =
             CareerDropdown.options[CareerDropdown.value].text;
 
-        SceneManager.LoadScene("IntroScene");
+        //SceneManager.LoadScene("IntroScene");
+        SceneManager.LoadScene("ModeSelectScene");
     }
 
     //public void ConfirmAndStartGame()

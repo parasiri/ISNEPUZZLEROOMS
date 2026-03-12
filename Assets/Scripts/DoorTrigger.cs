@@ -37,6 +37,13 @@ public class DoorTrigger : MonoBehaviour
         }
         PuzzleStateManager.Instance.ResetPuzzle();
 
+        // ห้องเดียว
+        if (PlayerDataManager.Instance.gameMode == PlayerDataManager.GameMode.SingleRoom)
+        {
+            SceneManager.LoadScene(scoreboardScene);
+            return;
+        }
+
         // ถ้าเล่นครบทุกห้องแล้ว → ไป Scoreboard
         if (remainingRooms.Count == 0)
         {

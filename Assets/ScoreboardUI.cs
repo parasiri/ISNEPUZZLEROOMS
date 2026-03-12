@@ -21,7 +21,14 @@ public class ScoreboardUI : MonoBehaviour
     {
         var topPlayers = ScoreDataManager.Instance.GetTopScores(10);
 
-        rankingText.text = "TOP RANKING\n\n";
+        if (PlayerDataManager.Instance.gameMode == PlayerDataManager.GameMode.Adventure)
+        {
+            rankingText.text = "ADVENTURE LEADERBOARD\n\n";
+        }
+        else
+        {
+            rankingText.text = "ROOM LEADERBOARD\n\n";
+        }
 
         foreach (Transform child in rankingContent)
         {
@@ -51,14 +58,24 @@ public class ScoreboardUI : MonoBehaviour
 
         var data = PlayerDataManager.Instance;
 
-        float totalTime = data.GetTotalTime();
+        float totalTime;
+
+        if (data.gameMode == PlayerDataManager.GameMode.Adventure)
+        {
+            totalTime = data.GetTotalTime();
+        }
+        else
+        {
+            // ถ้าเล่นห้องเดียว ให้ใช้เวลาเฉพาะห้องนั้น
+            totalTime = data.GetTotalTime();
+        }
 
         nameText.text = data.playerName;
         yearText.text = data.playerYear;
         careerText.text = data.playerCareer;
         timeText.text = totalTime.ToString("0.0") + " sec";
 
-        if (!scoreAdded)
+        if (!scoreAdded && ScoreDataManager.Instance != null)
         {
             PlayerScore newScore = new PlayerScore(
                 data.playerName,
