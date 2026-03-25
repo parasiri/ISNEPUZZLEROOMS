@@ -4,11 +4,14 @@ using TMPro;
 public class PlayfairBoardUI : MonoBehaviour
 {
     public GameObject boardPanel;
-    public TextMeshProUGUI[] gridTexts; // ต้องมี 25 ช่อง
+    public TextMeshProUGUI[] gridTexts; // 25 ช่อง
+
+    public TextMeshProUGUI plaintextText; 
 
     public void OpenBoard()
     {
         string key = NetsecPuzzleManager.Instance.currentKey;
+        string plaintext = NetsecPuzzleManager.Instance.currentPlaintext; // ดึง plaintext
 
         char[,] table = PlayfairCipher.GeneratePlayfairTable(key);
 
@@ -22,6 +25,9 @@ public class PlayfairBoardUI : MonoBehaviour
                 index++;
             }
         }
+
+        // แสดง plaintext
+        plaintextText.text = "Plaintext: " + plaintext;
 
         boardPanel.SetActive(true);
     }

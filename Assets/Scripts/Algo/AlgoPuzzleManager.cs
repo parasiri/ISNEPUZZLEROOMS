@@ -21,6 +21,10 @@ public class AlgoPuzzleManager : MonoBehaviour
     [Header("Dialogue")]
     public AlgoDialogue algoDialogue;
 
+    [Header("Puzzle UI")]
+    public GameObject darkOverlay;
+    public GameObject treeUIPanel;
+
     private bool treeInstructionShown = false; 
 
     void Awake()
@@ -124,5 +128,23 @@ public class AlgoPuzzleManager : MonoBehaviour
         if (node == null) return 0;
 
         return 1 + Mathf.Max(Height(node.left), Height(node.right));
+    }
+
+    public void OpenPuzzle()
+    {
+        if (darkOverlay != null)
+            darkOverlay.SetActive(true);
+
+        if (treeUIPanel != null)
+            treeUIPanel.SetActive(true);
+    }
+
+    public void ClosePuzzle()
+    {
+        if (darkOverlay != null)
+            darkOverlay.SetActive(false);
+
+        if (treeUIPanel != null)
+            treeUIPanel.SetActive(false);
     }
 }

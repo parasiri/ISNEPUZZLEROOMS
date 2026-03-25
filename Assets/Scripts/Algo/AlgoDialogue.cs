@@ -26,7 +26,6 @@ public class AlgoDialogue : MonoBehaviour, IRoomDialogue
     {
         "Welcome to the Algorithm Room!",
         "In this room, you will learn how algorithms organize data.",
-        "An algorithm is a step-by-step process used to solve a problem.",
         "I have hidden several numbers inside the books.",
         "They might be at the top left near me...",
         "Hmm... and I really like CYAN and YELLOW!",

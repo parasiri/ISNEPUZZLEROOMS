@@ -17,6 +17,7 @@ public class PlayfairIntroManager : MonoBehaviour
     public GameObject ruletwoCard;
     public GameObject encryptCard;
     public GameObject decryptCard;
+    public GameObject difCard;
 
     [Header("Continue Button")]
     public Button continueButton;
@@ -68,6 +69,7 @@ public class PlayfairIntroManager : MonoBehaviour
         ruletwoCard.SetActive(false);
         encryptCard.SetActive(false);
         decryptCard.SetActive(false);
+        difCard.SetActive(false);
 
         continueButton.gameObject.SetActive(false);
 
@@ -137,7 +139,7 @@ public class PlayfairIntroManager : MonoBehaviour
         {
             cardStep++;
 
-            if (cardStep < 5)
+            if (cardStep < 6)
             {
                 ShowCard();
             }
@@ -209,7 +211,7 @@ public class PlayfairIntroManager : MonoBehaviour
             else
             {
                 currentState = IntroState.Cards;
-                cardStep = 4;
+                cardStep = 5;
                 ShowCard();
             }
         }
@@ -231,12 +233,14 @@ public class PlayfairIntroManager : MonoBehaviour
         ruletwoCard.SetActive(false);
         encryptCard.SetActive(false);
         decryptCard.SetActive(false);
+        difCard.SetActive(false);
 
         if (cardStep == 0) keySquareCard.SetActive(true);
         if (cardStep == 1) ruleCard.SetActive(true);
         if (cardStep == 2) ruletwoCard.SetActive(true);
         if (cardStep == 3) encryptCard.SetActive(true);
         if (cardStep == 4) decryptCard.SetActive(true);
+        if (cardStep == 5) difCard.SetActive(true);
     }
 
     void HideAllCards()
@@ -246,6 +250,7 @@ public class PlayfairIntroManager : MonoBehaviour
         ruletwoCard.SetActive(false);
         encryptCard.SetActive(false);
         decryptCard.SetActive(false);
+        difCard.SetActive(false) ;
     }
 
     IEnumerator TypeLine(string line)
@@ -285,12 +290,14 @@ public class PlayfairIntroManager : MonoBehaviour
         ruletwoCard.SetActive(false);
         encryptCard.SetActive(false);
         decryptCard.SetActive(false);
+        difCard.SetActive(false);
 
         if (cardStep == 1) keySquareCard.SetActive(true);
         else if (cardStep == 2) ruleCard.SetActive(true);
         else if (cardStep == 3) ruletwoCard.SetActive(true);
         else if (cardStep == 4) encryptCard.SetActive(true);
         else if (cardStep == 5) decryptCard.SetActive(true);
+        else if (cardStep == 6) difCard.SetActive(true);
         else if (!endingStarted)
         {
             endingStarted = true;

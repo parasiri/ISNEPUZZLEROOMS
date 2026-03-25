@@ -42,9 +42,9 @@ public class ScoreboardUI : MonoBehaviour
             TMP_Text[] texts = row.GetComponentsInChildren<TMP_Text>();
 
             string medal = "";
-            if (i == 0) medal = "1";
-            else if (i == 1) medal = "2";
-            else if (i == 2) medal = "3";
+            if (i == 0) medal = "GOD";   
+            else if (i == 1) medal = "GOOD"; 
+            else if (i == 2) medal = "D"; 
 
             texts[0].text = medal + " " + (i + 1);
             texts[1].text = topPlayers[i].playerName;

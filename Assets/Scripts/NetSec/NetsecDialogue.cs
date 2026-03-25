@@ -15,18 +15,20 @@ public class NetsecDialogue : MonoBehaviour, IRoomDialogue
     public GameObject closeButton; // ปุ่ม X หรือ Close
 
     private string[] dialogueLines =
-    {
-        "Welcome to the Network Security Room.",
-        "This room will test your understanding of cryptography.",
-        "Specifically, we’ll be using a classic technique called the Playfair Cipher.",
-        "Playfair Cipher encrypts messages using pairs of letters instead of single characters.",
-        "It relies on logic, structure, and careful analysis — just like real security work.",
-        "In a moment, you will receive an encrypted message.",
-        "Your task is to decrypt it correctly before time runs out.",
-        "Think carefully. Every rule matters.",
-        "Alright...",
-        "Let’s begin the puzzle!"
-    };
+{
+    "Welcome to the Network Security Room.",
+    "This room will test your understanding of cryptography.",
+    "Specifically, we’ll be using a classic technique called the Playfair Cipher.",
+    "Playfair Cipher encrypts messages using pairs of letters instead of single characters.",
+    "To solve this puzzle, you will need to find the key and decrypt the message.",
+    "Hmm... I wonder if the key is hidden near the sofa in front of the shelf.",
+    "Or maybe it's somewhere around the computer next to the shelf.",
+    "Also, the plaintext you need might be placed on the shelf.",
+    "Take a look around carefully and use the Playfair Cipher to solve the puzzle.",
+    "Alright...",
+    "OH, You can use board at the right me to see the table",
+    "Let’s begin the puzzle!"
+};
 
     private int currentIndex = 0;
     private bool hasPlayed = false;
